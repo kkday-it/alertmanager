@@ -7,6 +7,9 @@
 /.release
 /.tarballs
 /vendor
+/.vscode
+/.idea
+alertmanager.yml
 
 !.golangci.yml
 !/cli/testdata/*.yml
