@@ -29,6 +29,7 @@ import (
 
 	"github.com/prometheus/alertmanager/config"
 	"github.com/prometheus/alertmanager/notify"
+	"github.com/prometheus/alertmanager/notify/kkdayslack"
 	"github.com/prometheus/alertmanager/template"
 	"github.com/prometheus/alertmanager/types"
 )
@@ -73,19 +74,26 @@ type request struct {
 
 // attachment is used to display a richly-formatted message block.
 type attachment struct {
-	Title      string               `json:"title,omitempty"`
-	TitleLink  string               `json:"title_link,omitempty"`
-	Pretext    string               `json:"pretext,omitempty"`
-	Text       string               `json:"text"`
-	Fallback   string               `json:"fallback"`
-	CallbackID string               `json:"callback_id"`
-	Fields     []config.SlackField  `json:"fields,omitempty"`
-	Actions    []config.SlackAction `json:"actions,omitempty"`
-	ImageURL   string               `json:"image_url,omitempty"`
-	ThumbURL   string               `json:"thumb_url,omitempty"`
-	Footer     string               `json:"footer"`
-	Color      string               `json:"color,omitempty"`
-	MrkdwnIn   []string             `json:"mrkdwn_in,omitempty"`
+	Title        string               `json:"title,omitempty"`
+	TitleLink    string               `json:"title_link,omitempty"`
+	Pretext      string               `json:"pretext,omitempty"`
+	Text         string               `json:"text"`
+	Fallback     string               `json:"fallback"`
+	CallbackID   string               `json:"callback_id"`
+	Fields       []config.SlackField  `json:"fields,omitempty"`
+	Actions      []config.SlackAction `json:"actions,omitempty"`
+	ImageURL     string               `json:"image_url,omitempty"`
+	IsKKday      string               `json:"is_kkday,omitempty"`
+	ChartLoc     string               `json:"chart_loc,omitempty"`
+	ChartExpr    string               `json:"chart_expr,omitempty"`
+	AwsAccessKey string               `json:"awsaccesskey,omitempty"`
+	AwsSecretKey string               `json:"awssecretkey,omitempty"`
+	AwsBucket    string               `json:"awsbucket,omitempty"`
+	AwsRegion    string               `json:"awsregion,omitempty"`
+	ThumbURL     string               `json:"thumb_url,omitempty"`
+	Footer       string               `json:"footer"`
+	Color        string               `json:"color,omitempty"`
+	MrkdwnIn     []string             `json:"mrkdwn_in,omitempty"`
 }
 
 // Notify implements the Notifier interface.
@@ -125,7 +133,12 @@ func (n *Notifier) Notify(ctx context.Context, as ...*types.Alert) (bool, error)
 		MrkdwnIn:   markdownIn,
 	}
 
-	numFields := len(n.conf.Fields)
+	// Check if IsKKday=yes and ChartExpr is not empty then draw chat set att.ImageURL
+	if strings.Compare(n.conf.IsKKday, "yes") == 0 && len(n.conf.ChartExpr) > 0 {
+		att.ImageURL = kkdayslack.Notify(tmplText, n.conf)
+	}
+
+	var numFields = len(n.conf.Fields)
 	if numFields > 0 {
 		fields := make([]config.SlackField, numFields)
 		for index, field := range n.conf.Fields {

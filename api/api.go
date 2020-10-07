@@ -24,7 +24,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/common/model"
 	"github.com/prometheus/common/route"
-
+	charts "github.com/prometheus/alertmanager/api/charts"
 	apiv1 "github.com/prometheus/alertmanager/api/v1"
 	apiv2 "github.com/prometheus/alertmanager/api/v2"
 	"github.com/prometheus/alertmanager/cluster"
@@ -190,6 +190,10 @@ func (api *API) Register(r *route.Router, routePrefix string) *http.ServeMux {
 		api.limitHandler(http.StripPrefix(apiPrefix, api.v2.Handler)),
 	)
 
+	mux.Handle(
+		apiPrefix+"/api/charts",
+		charts.LimitHandler(),
+	)
 	return mux
 }
 
