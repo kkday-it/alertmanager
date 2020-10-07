@@ -2,7 +2,7 @@ module github.com/prometheus/alertmanager
 
 require (
 	github.com/alecthomas/units v0.0.0-20190924025748-f65c72e2690d
-	github.com/aws/aws-sdk-go v1.35.4 // indirect
+	github.com/aws/aws-sdk-go v1.35.4
 	github.com/cenkalti/backoff/v4 v4.0.2
 	github.com/cespare/xxhash v1.1.0
 	github.com/go-kit/kit v0.10.0
@@ -30,7 +30,7 @@ require (
 	github.com/shurcooL/httpfs v0.0.0-20190707220628-8d4bc4ba7749
 	github.com/shurcooL/vfsgen v0.0.0-20181202132449-6a9ea43bcacd
 	github.com/stretchr/testify v1.5.1
-	github.com/wcharczuk/go-chart v2.0.1+incompatible // indirect
+	github.com/wcharczuk/go-chart v2.0.1+incompatible
 	github.com/xlab/treeprint v1.0.0
 	golang.org/x/image v0.0.0-20200927104501-e162460cd6b5 // indirect
 	golang.org/x/net v0.0.0-20200625001655-4c5254603344

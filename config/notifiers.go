@@ -67,17 +67,24 @@ var (
 		NotifierConfig: NotifierConfig{
 			VSendResolved: false,
 		},
-		Color:      `{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}`,
-		Username:   `{{ template "slack.default.username" . }}`,
-		Title:      `{{ template "slack.default.title" . }}`,
-		TitleLink:  `{{ template "slack.default.titlelink" . }}`,
-		IconEmoji:  `{{ template "slack.default.iconemoji" . }}`,
-		IconURL:    `{{ template "slack.default.iconurl" . }}`,
-		Pretext:    `{{ template "slack.default.pretext" . }}`,
-		Text:       `{{ template "slack.default.text" . }}`,
-		Fallback:   `{{ template "slack.default.fallback" . }}`,
-		CallbackID: `{{ template "slack.default.callbackid" . }}`,
-		Footer:     `{{ template "slack.default.footer" . }}`,
+		Color:        `{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}`,
+		Username:     `{{ template "slack.default.username" . }}`,
+		Title:        `{{ template "slack.default.title" . }}`,
+		TitleLink:    `{{ template "slack.default.titlelink" . }}`,
+		IconEmoji:    `{{ template "slack.default.iconemoji" . }}`,
+		IconURL:      `{{ template "slack.default.iconurl" . }}`,
+		Pretext:      `{{ template "slack.default.pretext" . }}`,
+		Text:         `{{ template "slack.default.text" . }}`,
+		Fallback:     `{{ template "slack.default.fallback" . }}`,
+		CallbackID:   `{{ template "slack.default.callbackid" . }}`,
+		Footer:       `{{ template "slack.default.footer" . }}`,
+		IsKKday:      `{{ template "slack.default.iskkday" . }}`,
+		ChartLoc:     `{{ template "slack.default.chartloc" . }}`,
+		ChartExpr:    `{{ template "slack.default.chartexpr" . }}`,
+		AwsAccessKey: `{{ template "slack.default.awsaccesskey" . }}`,
+		AwsSecretKey: `{{ template "slack.default.awssecretkey" . }}`,
+		AwsBucket:    `{{ template "slack.default.awsbucket" . }}`,
+		AwsRegion:    `{{ template "slack.default.awsregion" . }}`,
 	}
 
 	// DefaultOpsGenieConfig defines default values for OpsGenie configurations.
@@ -331,9 +338,16 @@ type SlackConfig struct {
 	APIURL *SecretURL `yaml:"api_url,omitempty" json:"api_url,omitempty"`
 
 	// Slack channel override, (like #other-channel or @username).
-	Channel  string `yaml:"channel,omitempty" json:"channel,omitempty"`
-	Username string `yaml:"username,omitempty" json:"username,omitempty"`
-	Color    string `yaml:"color,omitempty" json:"color,omitempty"`
+	Channel      string `yaml:"channel,omitempty" json:"channel,omitempty"`
+	Username     string `yaml:"username,omitempty" json:"username,omitempty"`
+	Color        string `yaml:"color,omitempty" json:"color,omitempty"`
+	IsKKday      string `yaml:"iskkday,omitempty" json:"iskkday,omitempty"`
+	ChartLoc     string `yaml:"chart_loc,omitempty" json:"chart_loc,omitempty"`
+	ChartExpr    string `yaml:"chart_expr,omitempty" json:"chart_expr,omitempty"`
+	AwsAccessKey Secret `yaml:"awsaccesskey,omitempty" json:"awsaccesskey,omitempty"`
+	AwsSecretKey Secret `yaml:"awssecretkey,omitempty" json:"awssecretkey,omitempty"`
+	AwsBucket    string `yaml:"awsbucket,omitempty" json:"awsbucket,omitempty"`
+	AwsRegion    string `yaml:"awsregion,omitempty" json:"awsregion,omitempty"`
 
 	Title       string         `yaml:"title,omitempty" json:"title,omitempty"`
 	TitleLink   string         `yaml:"title_link,omitempty" json:"title_link,omitempty"`
