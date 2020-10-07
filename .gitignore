@@ -6,6 +6,8 @@
 /.build
 /.release
 /.tarballs
+/.vscode
+alertmanager.yml
 
 !.golangci.yml
 !/cli/testdata/*.yml
