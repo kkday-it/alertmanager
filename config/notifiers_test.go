@@ -326,6 +326,13 @@ username: mark
 channel: engineering
 title_link: http://example.com/
 image_url: https://example.com/logo.png
+iskkday: no
+chart_expr: sum(rate(laravel_s3_http_request_duration_seconds_bucket{}[30s]))
+chart_loc: Asia/Taipei
+awsaccesskey: access_key
+awssecretkey: secret_key
+awsbucket: bucket
+awsregion: region
 `,
 			expected: SlackConfig{Color: "green", Username: "mark", Channel: "engineering",
 				TitleLink: "http://example.com/",

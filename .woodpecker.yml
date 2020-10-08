@@ -1,0 +1,33 @@
+pipeline:
+  build:
+    image: quay.io/prometheus/golang-builder:1.14-base
+    commands:
+      - curl -s -L https://github.com/prometheus/promu/releases/download/v0.6.0/promu-0.6.0.linux-amd64.tar.gz | tar -xvzf - -C /tmp
+      - mkdir -p /go/bin
+      - cp /tmp/promu-0.6.0.linux-amd64/promu /go/bin/promu
+      - go mod vendor
+      - GO111MODULE=on /go/bin/promu build --prefix .build/linux-amd64
+
+  dry-run:
+    image: plugins/docker
+    dry_run: true
+    dockerfile: Dockerfile
+    repo: kkday/alertmanager
+    tags:
+      - 'beta'
+    when:
+      event:
+        - pull_request
+      branch: kkday-master
+
+  publish:
+    image: plugins/docker
+    dockerfile: Dockerfile
+    repo: kkday/alertmanager
+    tags:
+      - 'beta'
+    secrets: [ docker_username, docker_password ]
+    when:
+      event:
+        - push
+      branch: kkday-master

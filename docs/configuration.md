@@ -505,6 +505,13 @@ fields:
 [ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
 [ image_url: <tmpl_string> ]
 [ thumb_url: <tmpl_string> ]
+[ iskkday: <tmpl_string> ]
+[ chart_loc: <tmpl_string> ]
+[ chart_expr: <tmpl_string> ]
+[ awsaccesskey: <tmpl_string> ]
+[ awssecretkey: <tmpl_string> ]
+[ awsbucket: <tmpl_string> ]
+[ awsregion: <tmpl_string> ]
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]
