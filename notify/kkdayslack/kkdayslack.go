@@ -20,6 +20,9 @@ func Notify(tmplText func(name string) (s string), conf *config.SlackConfig) str
 		fmt.Println(query)
 		var prometheusQuery = charts.GetPrometheusQuery(query, loc, "http://127.0.0.1:9090")
 		buffer := charts.GetCharts(prometheusQuery)
+		if buffer == nil {
+			return ""
+		}
 		url := charts.UpdateImageS3(buffer.String(), awsConfig)
 		return url
 	} else {

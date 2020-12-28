@@ -64,20 +64,24 @@ type DrawChartRow struct {
 
 // GetPrometheusQueryAPI get prometheus query resutlt.
 func GetPrometheusQueryAPI(r *http.Request, apiHostURL string) PrometheusQuery {
+	var prometheusQuery PrometheusQuery
 	query, ok := r.URL.Query()["query"]
 	if !ok || len(query[0]) < 1 {
-		panic("The query is empty.")
+		fmt.Println("The query is empty.")
+		return prometheusQuery
 	}
 	loc, ok := r.URL.Query()["loc"]
 	if !ok || len(loc[0]) < 1 {
 		loc = []string{"Asia/Taipei"}
 	}
-	return GetPrometheusQuery(query[0], loc[0], apiHostURL)
+	prometheusQuery = GetPrometheusQuery(query[0], loc[0], apiHostURL)
+	return prometheusQuery
 }
 
 // GetPrometheusQuery get prometheus query resutlt.
 func GetPrometheusQuery(query string, loc string, apiHostURL string) PrometheusQuery {
 
+	var prometheusQuery PrometheusQuery
 	startTime := strconv.FormatInt(time.Now().Add(-30*time.Minute).Unix(), 10)
 	endTime := strconv.FormatInt(time.Now().Unix(), 10)
 
@@ -85,23 +89,25 @@ func GetPrometheusQuery(query string, loc string, apiHostURL string) PrometheusQ
 	fmt.Println("loc", loc)
 	fmt.Println("startTime", startTime)
 	fmt.Println("endTime", endTime)
-	resp, err := http.Get(apiHostURL + "/api/v1/query_range?step=1&start=" + startTime + "&end=" + endTime + "&query=" + url.QueryEscape(query))
+	apiUrl := apiHostURL + "/api/v1/query_range?step=1&start=" + startTime + "&end=" + endTime + "&query=" + url.QueryEscape(query)
+	resp, err := http.Get(apiUrl)
 
 	if err != nil {
-		panic(err)
+		fmt.Printf("call api: %s\n %s\n", apiUrl, err)
+		return prometheusQuery
 	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("resp.Body", string(body))
-		panic(err)
+		fmt.Printf("resp.Body: %s\n %s\n", err, string(body))
+		return prometheusQuery
 	}
 
-	var prometheusQuery PrometheusQuery
 	json.Unmarshal([]byte(string(body)), &prometheusQuery)
 	if strings.Compare(prometheusQuery.Status, "error") == 0 {
-		panic("error: " + string(body))
+		fmt.Printf("prometheusQuery.Status.error: %s\n", string(body))
+		return prometheusQuery
 	}
 	location, _ := time.LoadLocation(loc)
 	prometheusQuery.Loc = location
@@ -167,7 +173,8 @@ func drawChart(drawCharts DrawCharts, prometheusQuery PrometheusQuery) *bytes.Bu
 	buffer := bytes.NewBuffer([]byte{})
 	err1 := graph.Render(chart.PNG, buffer)
 	if err1 != nil {
-		panic(err1)
+		fmt.Printf("graph.Render error: %s\n", err1)
+		return nil
 	}
 
 	return buffer
@@ -198,7 +205,7 @@ func UpdateImageS3(source string, awsConfig *AwsConfig) string {
 	})
 	if err != nil {
 		fmt.Printf("Failed to upload data to %s/%s, %s\n", awsConfig.Bucket, awsConfig.Key, err.Error())
-		panic(err)
+		return "";
 	}
 	return result.Location
 }
