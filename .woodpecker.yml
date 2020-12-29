@@ -14,7 +14,7 @@ pipeline:
     dockerfile: Dockerfile
     repo: kkday/alertmanager
     tags:
-      - 'v1.0.0'
+      - 'v1.0.1-beta'
     when:
       event:
         - pull_request
@@ -25,7 +25,7 @@ pipeline:
     dockerfile: Dockerfile
     repo: kkday/alertmanager
     tags:
-      - 'v1.0.0'
+      - 'v1.0.1-beta'
     secrets: [ docker_username, docker_password ]
     when:
       event:
