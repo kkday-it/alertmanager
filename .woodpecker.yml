@@ -17,7 +17,7 @@ pipeline:
     when:
       event:
         - pull_request
-      branch: [kkday-master, kkday-master-v2]
+      branch: [test/v2]
 
   publish:
     image: plugins/docker
@@ -28,4 +28,4 @@ pipeline:
     when:
       event:
         - tag
-      branch: [kkday-master, kkday-master-v2]
+      branch: [test/v2]
