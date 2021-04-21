@@ -70,26 +70,27 @@ type request struct {
 
 // attachment is used to display a richly-formatted message block.
 type attachment struct {
-	Title        string               `json:"title,omitempty"`
-	TitleLink    string               `json:"title_link,omitempty"`
-	Pretext      string               `json:"pretext,omitempty"`
-	Text         string               `json:"text"`
-	Fallback     string               `json:"fallback"`
-	CallbackID   string               `json:"callback_id"`
-	Fields       []config.SlackField  `json:"fields,omitempty"`
-	Actions      []config.SlackAction `json:"actions,omitempty"`
-	ImageURL     string               `json:"image_url,omitempty"`
-	IsKKday      string               `json:"is_kkday,omitempty"`
-	ChartLoc     string               `json:"chart_loc,omitempty"`
-	ChartExpr    string               `json:"chart_expr,omitempty"`
-	AwsAccessKey string               `json:"awsaccesskey,omitempty"`
-	AwsSecretKey string               `json:"awssecretkey,omitempty"`
-	AwsBucket    string               `json:"awsbucket,omitempty"`
-	AwsRegion    string               `json:"awsregion,omitempty"`
-	ThumbURL     string               `json:"thumb_url,omitempty"`
-	Footer       string               `json:"footer"`
-	Color        string               `json:"color,omitempty"`
-	MrkdwnIn     []string             `json:"mrkdwn_in,omitempty"`
+	Title            string               `json:"title,omitempty"`
+	TitleLink        string               `json:"title_link,omitempty"`
+	Pretext          string               `json:"pretext,omitempty"`
+	Text             string               `json:"text"`
+	Fallback         string               `json:"fallback"`
+	CallbackID       string               `json:"callback_id"`
+	Fields           []config.SlackField  `json:"fields,omitempty"`
+	Actions          []config.SlackAction `json:"actions,omitempty"`
+	ImageURL         string               `json:"image_url,omitempty"`
+	IsKKday          string               `json:"is_kkday,omitempty"`
+	ChartLoc         string               `json:"chart_loc,omitempty"`
+	ChartExpr        string               `json:"chart_expr,omitempty"`
+	AwsAccessKey     string               `json:"awsaccesskey,omitempty"`
+	AwsSecretKey     string               `json:"awssecretkey,omitempty"`
+	AwsBucket        string               `json:"awsbucket,omitempty"`
+	AwsRegion        string               `json:"awsregion,omitempty"`
+	PrometheusUrl    string               `json:"prometheus_url,omitempty"`
+	ThumbURL         string               `json:"thumb_url,omitempty"`
+	Footer           string               `json:"footer"`
+	Color            string               `json:"color,omitempty"`
+	MrkdwnIn         []string             `json:"mrkdwn_in,omitempty"`
 }
 
 // Notify implements the Notifier interface.

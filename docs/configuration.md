@@ -512,6 +512,7 @@ fields:
 [ awssecretkey: <tmpl_string> ]
 [ awsbucket: <tmpl_string> ]
 [ awsregion: <tmpl_string> ]
+[ prometheus_url: <tmpl_string> ]
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]
