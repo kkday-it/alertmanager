@@ -475,6 +475,7 @@ awsaccesskey: access_key
 awssecretkey: secret_key
 awsbucket: bucket
 awsregion: region
+prometheus_url: prometheus_url
 `,
 			expected: SlackConfig{
 				Color: "green", Username: "mark", Channel: "engineering",

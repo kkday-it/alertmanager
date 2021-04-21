@@ -13,21 +13,19 @@ pipeline:
     dry_run: true
     dockerfile: Dockerfile
     repo: kkday/alertmanager
-    tags:
-      - 'v1.0.1'
+    tags: latest
     when:
       event:
         - pull_request
-      branch: kkday-master
+      branch: [kkday-master, kkday-master-v2]
 
   publish:
     image: plugins/docker
     dockerfile: Dockerfile
     repo: kkday/alertmanager
-    tags:
-      - 'v1.0.1'
+    tags: ${DRONE_TAG}
     secrets: [ docker_username, docker_password ]
     when:
       event:
-        - push
-      branch: kkday-master
+        - tag
+      branch: [kkday-master, kkday-master-v2]

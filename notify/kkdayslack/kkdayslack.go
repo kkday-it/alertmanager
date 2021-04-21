@@ -18,7 +18,7 @@ func Notify(tmplText func(name string) (s string), conf *config.SlackConfig) str
 			Region:    tmplText(conf.AwsRegion),
 		}
 		fmt.Println(query)
-		var prometheusQuery = charts.GetPrometheusQuery(query, loc, "http://127.0.0.1:9090")
+		var prometheusQuery = charts.GetPrometheusQuery(query, loc, tmplText(conf.PrometheusUrl))
 		buffer := charts.GetCharts(prometheusQuery)
 		if buffer == nil {
 			return ""
