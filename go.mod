@@ -19,6 +19,7 @@ require (
 	github.com/go-openapi/validate v0.22.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/gogo/protobuf v1.3.2
+	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/hashicorp/go-sockaddr v1.0.2
 	github.com/hashicorp/golang-lru/v2 v2.0.1
 	github.com/hashicorp/memberlist v0.5.0
@@ -36,8 +37,10 @@ require (
 	github.com/shurcooL/httpfs v0.0.0-20190707220628-8d4bc4ba7749
 	github.com/shurcooL/vfsgen v0.0.0-20200824052919-0d455de96546
 	github.com/stretchr/testify v1.8.1
+	github.com/wcharczuk/go-chart v2.0.1+incompatible
 	github.com/xlab/treeprint v1.1.0
 	go.uber.org/atomic v1.10.0
+	golang.org/x/image v0.0.0-20200927104501-e162460cd6b5 // indirect
 	golang.org/x/mod v0.7.0
 	golang.org/x/net v0.5.0
 	golang.org/x/text v0.6.0
