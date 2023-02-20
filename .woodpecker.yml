@@ -28,4 +28,4 @@ pipeline:
     when:
       event:
         - tag
-      branch: [kkday-master, kkday-master-v2, kkday-master-v2]
+      branch: [kkday-master, kkday-master-v2, kkday-master-v3]
