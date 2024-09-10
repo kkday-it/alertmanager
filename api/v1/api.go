@@ -22,6 +22,7 @@ import (
 	"sort"
 	"sync"
 	"time"
+	"strings"
 
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
@@ -394,7 +395,7 @@ func alertMatchesFilterLabels(a *model.Alert, matchers []*labels.Matcher) bool {
 
 func (api *API) addAlerts(w http.ResponseWriter, r *http.Request) {
 	var alerts []*types.Alert
-	if err := api.receive(r, &alerts); err != nil {
+	if err := api.replaceReceive(r, &alerts); err != nil {
 		api.respondError(w, apiError{
 			typ: errorBadData,
 			err: err,
@@ -804,5 +805,52 @@ func (api *API) receive(r *http.Request, v interface{}) error {
 		level.Debug(api.logger).Log("msg", "Decoding request failed", "err", err)
 		return err
 	}
+	return nil
+}
+
+func (api *API) replaceReceive(r *http.Request, v interface{}) error {
+	dec := json.NewDecoder(r.Body)
+	defer r.Body.Close()
+
+	// 暫時將解碼的數據存到一個通用的變量中
+	var data []map[string]interface{}
+	err := dec.Decode(&data)
+	if err != nil {
+		level.Debug(api.logger).Log("msg", "Decoding request failed", "err", err)
+		return err
+	}
+
+	// 處理 labels 的鍵名替換
+	for _, item := range data {
+		if labels, ok := item["labels"].(map[string]interface{}); ok {
+			newLabels := make(map[string]interface{})
+			for key, value := range labels {
+				// 替換 key 中的 '.' 為 '_'
+				newKey := strings.ReplaceAll(key, ".", "_")
+				newLabels[newKey] = value
+			}
+			// 將替換後的 labels 放回原位置
+			item["labels"] = newLabels
+		}
+	}
+
+	// 將處理過的數據編碼回 JSON
+	modifiedJSON, err := json.Marshal(data)
+	if err != nil {
+		level.Debug(api.logger).Log("msg", "Encoding modified data to JSON failed", "err", err)
+		return err
+	}
+
+	// 將編碼後的 JSON 字串轉換為 io.Reader
+	modifiedReader := strings.NewReader(string(modifiedJSON))
+
+	// 再次使用 json.NewDecoder 解碼
+	dec = json.NewDecoder(modifiedReader)
+	err = dec.Decode(v)
+	if err != nil {
+		level.Debug(api.logger).Log("msg", "Decoding modified JSON failed", "err", err)
+		return err
+	}
+
 	return nil
 }
