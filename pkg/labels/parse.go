@@ -24,7 +24,7 @@ import (
 var (
 	// '=~' has to come before '=' because otherwise only the '='
 	// will be consumed, and the '~' will be part of the 3rd token.
-	re      = regexp.MustCompile(`^\s*([a-zA-Z_:][a-zA-Z0-9_:]*)\s*(=~|=|!=|!~)\s*((?s).*?)\s*$`)
+	re      = regexp.MustCompile(`^\s*([a-zA-Z_:][a-zA-Z0-9_:.]*)\s*(=~|=|!=|!~)\s*((?s).*?)\s*$`)
 	typeMap = map[string]MatchType{
 		"=":  MatchEqual,
 		"!=": MatchNotEqual,
